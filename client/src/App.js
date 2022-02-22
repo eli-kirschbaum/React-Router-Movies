@@ -7,7 +7,7 @@ import SavedList from './Movies/SavedList';
 import MovieList from './Movies/MovieList';
 import Movie from './Movies/Movie';
 
-export default function App () {
+export default function App (props) {
   const [saved, setSaved] = useState([]); // Stretch: the ids of "saved" movies
   const [movieList, setMovieList] = useState([]);
 
@@ -18,6 +18,8 @@ export default function App () {
         .then(response => {
           // Study this response with a breakpoint or log statements
           // and set the response data as the 'movieList' slice of state
+          // console.log(response)
+          setMovieList(response.data)
         })
         .catch(error => {
           console.error('Server Error', error);
@@ -34,21 +36,19 @@ export default function App () {
     <div>
       <SavedList list={[ /* This is stretch */]} />
 
-      <div className='links'>
-        <Link to='/'>List of Movies</Link>
-        <Link to='/movies-list'>Movie</Link>
-      </div>
+      
     
     
-      <Switch>
-        <Route path='/'>
-          <MovieList items={movieList} />
+      
+        <Route exact path='/'>
+          <MovieList movies={movieList} />
         </Route>
-        <Route path={'/movies-list/:itemID'}>
-          <Movie items={movieList} />
+        
+        <Route path='/movies/:id'>
+          <Movie />
         </Route>
 
-      </Switch>
+      
     </div>
   )
   }
